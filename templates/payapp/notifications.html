@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}notifications{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">notifications</h2>
+
+<h4>incoming requests</h4>
+{% if incoming %}
+    <table class="table table-striped">
+        <thead><tr><th>from</th><th>amount</th><th>when</th><th></th></tr></thead>
+        <tbody>
+        {% for r in incoming %}
+            <tr>
+                <td>{{ r.requester.username }}</td>
+                <td>{{ r.amount }} {{ r.currency }}</td>
+                <td>{{ r.timestamp|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <form method="post" action="{% url 'accept_request' r.pk %}" class="d-inline">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-success">accept</button>
+                    </form>
+                    <form method="post" action="{% url 'reject_request' r.pk %}" class="d-inline">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-outline-danger">reject</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="text-muted">no pending requests</p>
+{% endif %}
+
+<h4 class="mt-4">requests you've sent</h4>
+{% if outgoing %}
+    <table class="table table-sm">
+        <thead><tr><th>to</th><th>amount</th><th>status</th><th>when</th></tr></thead>
+        <tbody>
+        {% for r in outgoing %}
+            <tr>
+                <td>{{ r.target.username }}</td>
+                <td>{{ r.amount }} {{ r.currency }}</td>
+                <td>
+                    {% if r.status == 'pending' %}<span class="badge text-bg-secondary">pending</span>
+                    {% elif r.status == 'accepted' %}<span class="badge text-bg-success">accepted</span>
+                    {% else %}<span class="badge text-bg-danger">rejected</span>{% endif %}
+                </td>
+                <td>{{ r.timestamp|date:"Y-m-d H:i" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="text-muted">you haven't sent any requests</p>
+{% endif %}
+{% endblock %}

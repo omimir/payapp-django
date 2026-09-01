@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}admin: users{% endblock %}
+
+{% block content %}
+<h2>all users</h2>
+<p><a class="btn btn-sm btn-outline-warning" href="{% url 'admin_register_admin' %}">+ register new admin</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>username</th><th>name</th><th>email</th><th>currency</th><th>balance</th><th>admin?</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for u in users %}
+        <tr>
+            <td>{{ u.username }}</td>
+            <td>{{ u.first_name }} {{ u.last_name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.currency }}</td>
+            <td>{{ u.balance }}</td>
+            <td>{% if u.is_staff %}<span class="badge text-bg-warning">admin</span>{% else %}—{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}admin: transactions{% endblock %}
+
+{% block content %}
+<h2>all transactions</h2>
+{% if txns %}
+<table class="table table-striped">
+    <thead>
+        <tr><th>when</th><th>from</th><th>to</th><th>amount</th></tr>
+    </thead>
+    <tbody>
+    {% for t in txns %}
+        <tr>
+            <td>{{ t.timestamp|date:"Y-m-d H:i" }}</td>
+            <td>{{ t.sender.username }}</td>
+            <td>{{ t.recipient.username }}</td>
+            <td>{{ t.amount }} {{ t.currency }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">no transactions yet</p>
+{% endif %}
+
+<h2 class="mt-4">all payment requests</h2>
+{% if reqs %}
+<table class="table table-sm">
+    <thead><tr><th>when</th><th>requester</th><th>target</th><th>amount</th><th>status</th></tr></thead>
+    <tbody>
+    {% for r in reqs %}
+        <tr>
+            <td>{{ r.timestamp|date:"Y-m-d H:i" }}</td>
+            <td>{{ r.requester.username }}</td>
+            <td>{{ r.target.username }}</td>
+            <td>{{ r.amount }} {{ r.currency }}</td>
+            <td>{{ r.status }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">no payment requests</p>
+{% endif %}
+{% endblock %}

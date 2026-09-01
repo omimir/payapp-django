@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}register new admin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-warning">
+            <div class="card-body">
+                <h2 class="card-title">register a new admin</h2>
+                <p class="text-muted small">only admins can see this page. new admin starts with 0 GBP balance — they're not really expected to send/receive money.</p>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-warning w-100">create admin</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}request money{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">request money</h2>
+                <p class="text-muted small">amount is in your currency ({{ user.currency }}). they'll see it converted into theirs when they accept.</p>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary w-100">send request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
